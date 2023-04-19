@@ -1,0 +1,12 @@
+flask
+pyyaml
+mwoauth
+flask_sqlalchemy
+Flask-Babel
+Flask-Login
+pycountry
+mysqlclient
+PyMySQL
+nose2
+coverage
+

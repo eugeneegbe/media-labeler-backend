@@ -1,0 +1,74 @@
+
+from flask import Blueprint, flash, redirect, request, session, url_for
+from flask_login import current_user, login_user, logout_user
+import mwoauth
+
+from server import app
+# from isa.main.utils import commit_changes_to_db
+from server.models import User
+
+
+users = Blueprint('users', __name__)
+
+
+@users.route('/api/set-login-url')
+def setLoginUrl():
+    session['next_url'] = request.args.get('url')
+    return "success"
+
+@users.route('/login')
+def login():
+    """Initiate an OAuth login.
+    
+    Call the MediaWiki server to get request secrets and then redirect the
+    user to the MediaWiki server to sign the request.
+    """
+    consumer_token = mwoauth.ConsumerToken(
+        app.config['CONSUMER_KEY'], app.config['CONSUMER_SECRET'])
+    try:
+        redirect_string, request_token = mwoauth.initiate(
+            app.config['OAUTH_MWURI'], consumer_token)
+    except Exception:
+        app.logger.exception('mwoauth.initiate failed')
+        return redirect(url_for('main.home'))
+    else:
+        session['request_token'] = dict(zip(
+            request_token._fields, request_token))
+        return redirect(redirect_string)
+
+
+@users.route('/oauth-callback')
+def oauth_callback():
+    """OAuth handshake callback."""
+    if 'request_token' not in session:
+        flash(u'OAuth callback failed. Are cookies disabled?')
+        return redirect(url_for('index'))
+
+    consumer_token = mwoauth.ConsumerToken(
+        app.config['CONSUMER_KEY'], app.config['CONSUMER_SECRET'])
+
+    try:
+        access_token = mwoauth.complete(
+            app.config['OAUTH_MWURI'],
+            consumer_token,
+            mwoauth.RequestToken(**session['request_token']),
+            request.query_string)
+
+        identity = mwoauth.identify(
+            app.config['OAUTH_MWURI'], consumer_token, access_token)    
+    except Exception:
+        app.logger.exception('OAuth authentication failed')
+    
+    else:
+        session['access_token'] = dict(zip(
+            access_token._fields, access_token))
+        session['username'] = identity['username']
+
+    return redirect(url_for('index'))
+
+
+@users.route('/logout')
+def logout():
+    """Log the user out by clearing their session."""
+    session.clear()
+    return redirect(url_for('index'))

@@ -1,0 +1,8 @@
+SECRET_KEY: '<app secret key>'
+SQLALCHEMY_DATABASE_URI: 'mysql+pymysql://database_user:db_pass@dbhost/db_name'
+OAUTH_MWURI: https://commons.wikimedia.org/w/index.php
+OAUTh_EDIT_URI: https://test-commons.wikimedia.org/w/api.php
+CONSUMER_KEY: <consumer key>
+CONSUMER_SECRET: <consumer secret>
+SQLALCHEMY_POOL_RECYCLE: 90
+# SERVER_DEV: true
