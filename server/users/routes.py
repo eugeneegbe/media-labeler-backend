@@ -37,7 +37,7 @@ def login():
         return redirect(redirect_string)
 
 
-@users.route('/oauth-callback')
+@users.route('/auth/mediawiki/callback')
 def oauth_callback():
     """OAuth handshake callback."""
     if 'request_token' not in session:
