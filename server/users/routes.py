@@ -42,7 +42,7 @@ def oauth_callback():
     """OAuth handshake callback."""
     if 'request_token' not in session:
         flash(u'OAuth callback failed. Are cookies disabled?')
-        return redirect(url_for('index'))
+        return redirect(url_for('main.home'))
 
     consumer_token = mwoauth.ConsumerToken(
         app.config['CONSUMER_KEY'], app.config['CONSUMER_SECRET'])
@@ -64,11 +64,11 @@ def oauth_callback():
             access_token._fields, access_token))
         session['username'] = identity['username']
 
-    return redirect(url_for('index'))
+    return redirect(url_for('main.home'))
 
 
 @users.route('/logout')
 def logout():
     """Log the user out by clearing their session."""
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.home'))
