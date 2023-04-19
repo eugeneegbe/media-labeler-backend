@@ -1,0 +1,5 @@
+server/__pycache__/
+server/main/__pycache__/
+server/users/__pycache__/
+venv/
+server/config.yaml
