@@ -6,6 +6,7 @@ import yaml
 from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_babel import Babel
+from flask_cors import CORS, cross_origin
 # from flask_login import LoginManager
 
 
@@ -33,9 +34,12 @@ def get_locale():
         session['lang'] = request.args.get('lang')
     return session.get('lang', 'en')
 
-
+cors = CORS(app)
 babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
+
+
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.before_request

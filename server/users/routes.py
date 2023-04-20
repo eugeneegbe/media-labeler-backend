@@ -3,6 +3,8 @@ from flask import Blueprint, flash, redirect, request, session, url_for
 from flask_login import current_user, login_user, logout_user
 import mwoauth
 
+from flask_cors import cross_origin
+
 from server import app
 # from isa.main.utils import commit_changes_to_db
 from server.models import User
@@ -17,6 +19,7 @@ def setLoginUrl():
     return "success"
 
 @users.route('/login')
+@cross_origin()
 def login():
     """Initiate an OAuth login.
     
@@ -67,17 +70,15 @@ def oauth_callback():
 
 
 @users.route('/current-user')
+@cross_origin()
 def get_current_user():
     if not session['username']:
-        return {
-            "username":  "Anonymous"
-        }
-    return {
-            "username":  session['username']
-        }
+        return {"username":  "Anonymous"}
+    return { "username":  session['username']}
 
 
 @users.route('/logout')
+@cross_origin()
 def logout():
     """Log the user out by clearing their session."""
     try:

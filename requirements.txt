@@ -9,4 +9,4 @@ mysqlclient
 PyMySQL
 nose2
 coverage
-
+flask-cors
