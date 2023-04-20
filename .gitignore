@@ -2,6 +2,7 @@ server/__pycache__/
 server/main/__pycache__/
 server/images/__pycache__/
 server/contributions/__pycache__/
+server/categories/__pycache__/
 server/users/__pycache__/
 venv/
 server/serializer/__pycache__/
