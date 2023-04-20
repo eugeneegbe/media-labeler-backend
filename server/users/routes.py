@@ -14,6 +14,7 @@ users = Blueprint('users', __name__)
 
 
 @users.route('/api/set-login-url')
+@cross_origin()
 def setLoginUrl():
     session['next_url'] = request.args.get('url')
     return "success"
@@ -41,6 +42,7 @@ def login():
 
 
 @users.route('/auth/mediawiki/callback')
+@cross_origin()
 def oauth_callback():
     """OAuth handshake callback."""
     if 'request_token' not in session:
