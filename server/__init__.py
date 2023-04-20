@@ -39,9 +39,6 @@ babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
 
 
-app.config['CORS_HEADERS'] = 'Content-Type'
-
-
 @app.before_request
 def before_request():
     # Update session language
@@ -53,12 +50,10 @@ def before_request():
 
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers',
-                       'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods',
-                       'GET,PUT,POST,DELETE,OPTIONS')
-  return response
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers','Content-Type')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
 
 
 db = SQLAlchemy(app)
