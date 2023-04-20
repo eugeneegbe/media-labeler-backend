@@ -63,10 +63,25 @@ def oauth_callback():
         session['access_token'] = dict(zip(
             access_token._fields, access_token))
         session['username'] = identity['username']
-    return session['username']
+    return redirect(url_for('users.get_current_user'))
+
+
+@users.route('/current-user')
+def get_current_user():
+    if not session['username']:
+        return {
+            "username":  "Anonymous"
+        }
+    return {
+            "username":  session['username']
+        }
+
 
 @users.route('/logout')
 def logout():
     """Log the user out by clearing their session."""
-    session.clear()
-    return redirect(url_for('main.home'))
+    try:
+        session.clear()
+        return "sucess"
+    except Exception as e:
+        raise e
