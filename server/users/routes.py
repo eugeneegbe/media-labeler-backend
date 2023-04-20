@@ -63,9 +63,7 @@ def oauth_callback():
         session['access_token'] = dict(zip(
             access_token._fields, access_token))
         session['username'] = identity['username']
-
-    return redirect(url_for('main.home'))
-
+    return session['username']
 
 @users.route('/logout')
 def logout():
