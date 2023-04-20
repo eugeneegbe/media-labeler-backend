@@ -38,10 +38,6 @@ def get_locale():
 babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
 
-
-app.config['CORS_HEADERS'] = 'Content-Type'
-
-
 @app.before_request
 def before_request():
     # Update session language
