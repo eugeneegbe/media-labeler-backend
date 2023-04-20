@@ -62,7 +62,6 @@ from server.contributions.routes import contributions
 from server.images.routes import images
 from server.categories.routes import categories
 
-
 # Here we register the various blue_prints of our app
 app.register_blueprint(main)
 app.register_blueprint(users)

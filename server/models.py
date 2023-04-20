@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from server.serializer import Serializer
 from flask_login import UserMixin
 
 from server import db
@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
                self.username)
 
 
-class Contribution(db.Model):
+class Contribution(db.Model, Serializer):
     id = db.Column(db.Integer, primary_key=True, index=True)
     username = db.Column(db.String(255))
     filename = db.Column(db.String(255), unique=True, nullable=False)
@@ -31,9 +31,12 @@ class Contribution(db.Model):
     representation = db.Column(db.String(30))
     type = db.Column(db.String(10))
 
+    def serialize(self):
+        return Serializer.serialize(self)
+
     def __repr__(self):
         # This is what is shown when object is printed
-        return "User({}, {}, {})".format(
+        return "Contribution({}, {}, {})".format(
                self.id,
                self.username,
                self.type)
@@ -45,7 +48,7 @@ class Image(db.Model):
     category_id = db.Column(db.Integer)
     def __repr__(self):
         # This is what is shown when object is printed
-        return "User({}, {})".format(
+        return "Image({}, {})".format(
                self.id,
                self.username)
 
@@ -58,7 +61,7 @@ class Category(db.Model):
 
     def __repr__(self):
         # This is what is shown when object is printed
-        return "User({}, {})".format(
+        return "Image({}, {})".format(
                self.id,
                self.name)
 
