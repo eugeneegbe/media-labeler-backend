@@ -19,17 +19,17 @@ class User(db.Model, UserMixin):
 class Contribution(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
     username = db.Column(db.String(255))
-    filename = db.Column(db.String, unique=True, nullable=False)
+    filename = db.Column(db.String(255), unique=True, nullable=False)
     clarity = db.Column(db.Boolean)
-    identity_type = db.Column(db.String)
-    depict_accuracy = db.Column(db.String)
-    subject_relevance = db.Column(db.String)
-    accuracy = db.Column(db.String)
+    identity_type = db.Column(db.String(30))
+    depict_accuracy = db.Column(db.String(30))
+    subject_relevance = db.Column(db.String(30))
+    accuracy = db.Column(db.String(30))
     created_at = db.Column(db.Date, default=datetime.now().strftime('%Y-%m-%d'))
-    region_alt = db.Column(db.String)
-    region = db.Column(db.String)
-    representation = db.Column(db.String)
-    type = db.Column(db.String)
+    region_alt = db.Column(db.String(30))
+    region = db.Column(db.String(30))
+    representation = db.Column(db.String(30))
+    type = db.Column(db.String(10))
 
     def __repr__(self):
         # This is what is shown when object is printed
@@ -52,7 +52,9 @@ class Image(db.Model):
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
-    name = db.Column(db.String)
+    file_name = db.Column(db.String(255))
+    url = db.Column(db.String(255))
+    description = db.Column(db.String(255))
 
     def __repr__(self):
         # This is what is shown when object is printed
