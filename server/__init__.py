@@ -15,7 +15,6 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Load configuration from YAML file
 __dir__ = os.path.dirname(__file__)
@@ -35,8 +34,13 @@ def get_locale():
         session['lang'] = request.args.get('lang')
     return session.get('lang', 'en')
 
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 babel = Babel(app)
 babel.init_app(app, locale_selector=get_locale)
+
+
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 @app.before_request
 def before_request():
@@ -46,6 +50,11 @@ def before_request():
     if "SERVER_DEV" in app.config and app.config["SERVER_DEV"]:
         session['username'] = "Dev"
 
+
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  return response
 
 db = SQLAlchemy(app)
 
