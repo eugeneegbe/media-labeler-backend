@@ -58,9 +58,16 @@ db = SQLAlchemy(app)
 # we import all our blueprint routes here
 from server.main.routes import main
 from server.users.routes import users
+from server.contributions.routes import contributions
+from server.images.routes import images
+from server.categories.routes import categories
+
 
 # Here we register the various blue_prints of our app
 app.register_blueprint(main)
 app.register_blueprint(users)
+app.register_blueprint(contributions)
+app.register_blueprint(images)
+app.register_blueprint(categories)
 
 app.app_context().push()
