@@ -25,7 +25,7 @@ def getContributions():
     return get_serialized_data(all_contributions)
 
 
-@contributions.route('/contributions/add', methods=['POST'])
+@contributions.route('/contributions', methods=['POST'])
 @cross_origin()
 def addContribution():
     data = json.loads(request.data)
