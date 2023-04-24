@@ -20,7 +20,7 @@ class Contribution(db.Model, Serializer):
     id = db.Column(db.Integer, primary_key=True, index=True)
     username = db.Column(db.String(255))
     filename = db.Column(db.String(255), unique=True, nullable=False)
-    clarity = db.Column(db.Boolean)
+    clarity = db.Column(db.String(30))
     identity_type = db.Column(db.String(30))
     depict_accuracy = db.Column(db.String(30))
     subject_relevance = db.Column(db.String(30))
