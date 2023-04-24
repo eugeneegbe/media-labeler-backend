@@ -76,7 +76,7 @@ def oauth_callback():
 def get_current_user():
     data = {}
     data["username"] = "Anonymous"
-    if session['username']: 
+    if session.get('username'): 
         data["username"] = session['username']
     return data
 
