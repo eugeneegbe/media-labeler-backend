@@ -68,7 +68,7 @@ def oauth_callback():
         session['access_token'] = dict(zip(
             access_token._fields, access_token))
         session['username'] = identity['username']
-    return redirect(url_for('users.get_current_user'))
+    return redirect(url_for('users.take_me_home'))
 
 
 @users.route('/current-user', methods=['GET'])
@@ -77,7 +77,13 @@ def get_current_user():
     data = {"username":  "Anonymous"}
     if session['username']: 
         data["username"] = session['username']
-    return redirect(app.config['FE_BASE_URL'], Response=make_response(data))
+    return data
+
+
+@users.route('/take-me-back', methods=['GET'])
+@cross_origin()
+def take_me_home():
+    return redirect(app.config['FE_BASE_URL'])
 
 
 @users.route('/logout')
