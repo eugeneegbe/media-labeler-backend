@@ -34,7 +34,7 @@ def login():
             app.config['OAUTH_MWURI'], consumer_token)
     except Exception:
         app.logger.exception('mwoauth.initiate failed')
-        return redirect(url_for('main.home'))
+        return redirect(request.referrer)
     else:
         session['request_token'] = dict(zip(
             request_token._fields, request_token))
@@ -68,7 +68,7 @@ def oauth_callback():
         session['access_token'] = dict(zip(
             access_token._fields, access_token))
         session['username'] = identity['username']
-    return redirect(request.referrer)
+    return redirect(url_for('users.take_me_back'))
 
 
 @users.route('/current-user', methods=['GET'])
@@ -77,6 +77,13 @@ def get_current_user():
     if not session['username']:
         return {"username":  "Anonymous"}
     return { "username":  session['username']}
+
+
+@users.route('/', methods=['GET'])
+@cross_origin()
+def take_me_back():
+    return redirect(app.config['FE_BASE_URL'])
+
 
 
 @users.route('/logout')
