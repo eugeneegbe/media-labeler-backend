@@ -77,7 +77,7 @@ def get_current_user():
     data = {"username":  "Anonymous"}
     if session['username']: 
         data["username"] = session['username']
-    return redirect(app.config['FE_BASE_URL'], Response=data)
+    return redirect(app.config['FE_BASE_URL'], user_data=data)
 
 
 @users.route('/logout')
