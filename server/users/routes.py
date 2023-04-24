@@ -68,7 +68,7 @@ def oauth_callback():
         session['access_token'] = dict(zip(
             access_token._fields, access_token))
         session['username'] = identity['username']
-    return redirect(url_for('users.get_current_user'))
+    return redirect(request.referrer)
 
 
 @users.route('/current-user', methods=['GET'])
