@@ -71,7 +71,7 @@ def oauth_callback():
     return redirect(url_for('users.get_current_user'))
 
 
-@users.route('/current-user')
+@users.route('/current-user', methods=['GET'])
 @cross_origin()
 def get_current_user():
     if not session['username']:
