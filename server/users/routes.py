@@ -1,5 +1,5 @@
 
-from flask import Blueprint, flash, redirect, request, session, url_for
+from flask import Blueprint, flash, redirect, request, session, url_for, make_response
 from flask_login import current_user, login_user, logout_user
 import mwoauth
 
@@ -77,7 +77,7 @@ def get_current_user():
     data = {"username":  "Anonymous"}
     if session['username']: 
         data["username"] = session['username']
-    return redirect(app.config['FE_BASE_URL'], user_data=data)
+    return redirect(app.config['FE_BASE_URL'], Response=make_response(data))
 
 
 @users.route('/logout')
