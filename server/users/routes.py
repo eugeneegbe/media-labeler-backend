@@ -74,7 +74,8 @@ def oauth_callback():
 @users.route('/current-user', methods=['GET'])
 @cross_origin()
 def get_current_user():
-    data = {"username":  "Anonymous"}
+    data = {}
+    data["username"] = "Anonymous"
     if session['username']: 
         data["username"] = session['username']
     return data
