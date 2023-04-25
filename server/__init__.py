@@ -25,6 +25,7 @@ app.config.update(
 app.config['SQLALCHEMY_DATABASE_URI']
 app.config['SECRET_KEY']
 app.config['TEMPLATES_AUTO_RELOAD']
+app.config['SQLALCHEMY_POOL_RECYCLE']
 
 # We hook babel to our app
 
