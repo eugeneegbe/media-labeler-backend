@@ -1,6 +1,8 @@
 from datetime import datetime
 from server.serializer import Serializer
 from flask_login import UserMixin
+from sqlalchemy.dialects.mysql import LONGTEXT
+
 
 from server import db
 
@@ -60,7 +62,7 @@ class Category(db.Model):
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
     filename = db.Column(db.String(255))
-    url = db.Column(db.String(255))
+    url = db.Column(LONGTEXT)
     category_id = db.Column(db.Integer)
     description = db.Column(db.String(255))
 

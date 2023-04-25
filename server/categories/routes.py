@@ -28,6 +28,7 @@ def addCategory():
 
     data = json.loads(request.data)
     print(data['category'])
+    print(data['type'])
     category_exits = Category.query.filter_by(name=data['category']).first()
     if category_exits:
         return Response(status=400, response='Category exists already')
