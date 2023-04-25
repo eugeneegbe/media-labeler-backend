@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
 class Contribution(db.Model, Serializer):
     id = db.Column(db.Integer, primary_key=True, index=True)
     username = db.Column(db.String(255))
-    filename = db.Column(db.String(255), unique=True, nullable=False)
+    filename = db.Column(db.String(255), nullable=False)
     clarity = db.Column(db.String(30))
     identity_type = db.Column(db.String(30))
     depict_accuracy = db.Column(db.String(30))
@@ -42,22 +42,30 @@ class Contribution(db.Model, Serializer):
                self.type)
 
 
-class Image(db.Model):
+class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
-    filename = db.Column(db.String(255))
-    category_id = db.Column(db.Integer)
+    name = db.Column(db.String(255), unique=True)
+    type = db.Column(db.String(10), nullable=False)
+
+    def serialize(self):
+        return Serializer.serialize(self)
+
     def __repr__(self):
         # This is what is shown when object is printed
         return "Image({}, {})".format(
                self.id,
-               self.username)
+               self.name)
 
 
-class Category(db.Model):
+class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True, index=True)
-    file_name = db.Column(db.String(255))
+    filename = db.Column(db.String(255))
     url = db.Column(db.String(255))
+    category_id = db.Column(db.Integer)
     description = db.Column(db.String(255))
+
+    def serialize(self):
+        return Serializer.serialize(self)
 
     def __repr__(self):
         # This is what is shown when object is printed

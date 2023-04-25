@@ -29,7 +29,6 @@ def getContributions():
 @cross_origin()
 def addContribution():
     data = json.loads(request.data)
-    print(data)
     contribution = create_contribution(data)
     if not contribution:
         abort(400, 'Contribution was not created')
