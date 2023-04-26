@@ -4,16 +4,25 @@ import logging
 
 import yaml
 from flask import Flask, request, session
-from flask_sqlalchemy import SQLAlchemy
 from flask_babel import Babel
 from flask_cors import CORS
 from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy as _BaseSQLAlchemy
+
+
+class SQLAlchemy(_BaseSQLAlchemy):
+    def apply_pool_defaults(self, app, options):
+        super(SQLAlchemy, self).apply_pool_defaults(self, app, options)
+        options["pool_pre_ping"] = True
+        options["pool_recycle"] = 120
+        options["pool_size"] = 10
 
 
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
+
 app = Flask(__name__)
 
 # Load configuration from YAML file
@@ -21,19 +30,18 @@ __dir__ = os.path.dirname(__file__)
 app.config.update(
     yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
+
 # Another secret key will be generated later
 app.config['SQLALCHEMY_DATABASE_URI']
 app.config['SECRET_KEY']
 app.config['TEMPLATES_AUTO_RELOAD']
-app.config['SQLALCHEMY_POOL_RECYCLE']
-app.config['SQLALCHEMY_POOL_SIZE']
-app.config['SQLALCHEMY_POOL_PRE_PING']
 
 
 def get_locale():
     if request.args.get('lang'):
         session['lang'] = request.args.get('lang')
     return session.get('lang', 'en')
+
 
 cors = CORS(app, automatic_options=True)
 babel = Babel(app)
