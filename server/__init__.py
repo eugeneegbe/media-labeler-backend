@@ -50,11 +50,17 @@ def before_request():
 
 db = SQLAlchemy(app)
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# login_manager.login_view = 'main.home'
-# login_manager.login_message = 'You Need to Login to Access This Page!'
-# login_manager.login_message_category = 'danger'
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'main.home'
+login_manager.login_message = 'You Need to Login to Access This Page!'
+login_manager.login_message_category = 'danger'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+	return None
+
 
 # we import all our blueprint routes here
 from server.main.routes import main
