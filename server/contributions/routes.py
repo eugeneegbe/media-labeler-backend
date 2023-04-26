@@ -17,11 +17,13 @@ contributions = Blueprint('contributions', __name__)
 def getContributions():
     contributions_of_type = []
     contrib_type = request.args.get('type')
+    all_contributions = Contribution.query.all()
     if contrib_type:
-        contributions_of_type = Contribution.query.filter_by(type=contrib_type).all()
+        for contribution in  all_contributions:
+            if contribution.type == contrib_type:
+                contributions_of_type.append(contribution)
         return get_serialized_data(contributions_of_type)
 
-    all_contributions = Contribution.query.all()
     return get_serialized_data(all_contributions)
 
 
