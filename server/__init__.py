@@ -26,8 +26,8 @@ app.config['SQLALCHEMY_DATABASE_URI']
 app.config['SECRET_KEY']
 app.config['TEMPLATES_AUTO_RELOAD']
 app.config['SQLALCHEMY_POOL_RECYCLE']
-
-# We hook babel to our app
+app.config['SQLALCHEMY_POOL_SIZE']
+app.config['SQLALCHEMY_POOL_PRE_PING']
 
 
 def get_locale():
