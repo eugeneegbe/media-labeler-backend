@@ -18,7 +18,6 @@ def getCategoies():
     type = request.args.get('type')
     filtered_category = []
     all_categories = Category.query.all()
-    print(all_categories)
     if type:
         for category in all_categories:
             if category.type == type:

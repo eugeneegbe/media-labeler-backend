@@ -15,9 +15,14 @@ images = Blueprint('images', __name__)
 @cross_origin()
 def getImages():
     category_name = request.args.get('category')
-    print('category_name', category_name)
     if not category_name:
         return Response(status=404, response=json.dumps({'message': 'Category May be Invalid'}))
     category = Category.query.filter_by(name=category_name).first()
-    all_images = Image.query.filter_by(category_id=category.id).all()
-    return get_serialized_data(all_images)
+    all_images = Image.query.all()
+    filtered_images = []
+
+    for image in all_images:
+        if image.category_id == category.id:
+            filtered_images.append(image)
+    return get_serialized_data(filtered_images)
+
