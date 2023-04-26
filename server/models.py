@@ -2,9 +2,12 @@ from datetime import datetime
 from server.serializer import Serializer
 from flask_login import UserMixin
 from sqlalchemy.dialects.mysql import LONGTEXT
+from server import db, login_manager
 
 
-from server import db
+@login_manager.user_loader
+def user_loader(user_id):
+    return User.query.get(int(user_id))
 
 
 class User(db.Model, UserMixin):

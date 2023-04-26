@@ -6,8 +6,8 @@ import yaml
 from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_babel import Babel
-from flask_cors import CORS, cross_origin
-# from flask_login import LoginManager
+from flask_cors import CORS
+from flask_login import LoginManager
 
 
 logging.basicConfig(
