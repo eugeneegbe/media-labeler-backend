@@ -48,7 +48,7 @@ def downloadContribution():
     all_contributions = Contribution.query.all()
     if len(all_contributions) == 0:
         abort(400, 'No contributions to download')
-    with open('contributions.csv', 'wb', newline='') as csvfile:
+    with open('contributions.csv', 'w', newline='') as csvfile:
         csv_writter = csv.writer(csvfile, delimiter=',')
         csv_writter.writerows(["id", "type" ,"username", "filename", "clarity", "identity_type",
                                "depict_accuracy", "subject_relevance", "accuracy", "region", "region_alt",
