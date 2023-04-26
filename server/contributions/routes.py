@@ -50,7 +50,7 @@ def downloadContribution():
         abort(400, 'No contributions to download')
     with open('contributions.csv', 'w', newline='') as csvfile:
         csv_writter = csv.writer(csvfile, delimiter=',')
-        csv_writter.writerows(["id", "type" ,"username", "filename", "clarity", "identity_type",
+        csv_writter.writerow(["id", "type" ,"username", "filename", "clarity", "identity_type",
                                "depict_accuracy", "subject_relevance", "accuracy", "region", "region_alt",
                                "representation", "created_at"])
         for contribution in all_contributions:
