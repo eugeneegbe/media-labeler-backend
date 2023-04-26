@@ -13,7 +13,7 @@ def create_contribution(data):
     region_alt=response.get('region_alt')
     region=response.get('region')
     representation=response.get('representation')
-    username = response.get('username', 'Anonymous')
+    username = data.get('username', 'Anonymous')
     
     contribution = Contribution(
         filename=data['filename'],
