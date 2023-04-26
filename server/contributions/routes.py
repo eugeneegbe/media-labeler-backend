@@ -54,12 +54,12 @@ def downloadContribution():
                                "depict_accuracy", "subject_relevance", "accuracy", "region", "region_alt",
                                "representation", "created_at"])
         for contribution in all_contributions:
-            csv_writter.writerow(contribution.id, contribution.type,
+            csv_writter.writerow([contribution.id, contribution.type,
                                  contribution.username, contribution.filename,
                                  contribution.clarity, contribution.identity_type,
                                  contribution.depict_accuracy, contribution.subject_relevance,
                                  contribution.accuracy, contribution.region,
-                                 contribution.region_alt, contribution.representation, contribution.created_at)
+                                 contribution.region_alt, contribution.representation, contribution.created_at])
     return send_file('../contributions.csv',
                      mimetype='text/csv',
                      as_attachment=True)
