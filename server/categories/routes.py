@@ -16,8 +16,14 @@ categories = Blueprint('categories', __name__)
 @cross_origin()
 def getCategoies():
     type = request.args.get('type')
-    all_categories = Category.query.filter_by(type=type).all()
+    filtered_category = []
+    all_categories = Category.query.all()
     print(all_categories)
+    if type:
+        for category in all_categories:
+            if category.type == type:
+                filtered_category.append(category)
+        return get_serialized_data(filtered_category)
     return get_serialized_data(all_categories)
 
 
