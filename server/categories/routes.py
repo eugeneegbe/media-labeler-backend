@@ -17,13 +17,16 @@ categories = Blueprint('categories', __name__)
 def getCategoies():
     type = request.args.get('type')
     filtered_category = []
-    all_categories = Category.query.all()
-    if type:
-        for category in all_categories:
-            if category.type == type:
-                filtered_category.append(category)
-        return get_serialized_data(filtered_category)
-    return get_serialized_data(all_categories)
+    try:
+        all_categories = Category.query.all()
+        if type:
+            for category in all_categories:
+                if category.type == type:
+                    filtered_category.append(category)
+            return get_serialized_data(filtered_category)
+        return get_serialized_data(all_categories)
+    except:
+        db.session.rollback()
 
 
 @categories.route('/categories/add',  methods=['POST'])
