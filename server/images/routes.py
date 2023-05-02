@@ -46,7 +46,19 @@ def getImageDescription():
     resp = session.get(commons_url, params=params).json()
     if not resp:
         return Response(status=404, response=json.dumps({"message": "Could not get file descrription"}))
-    if resp['query']['pages'].keys():
-        page_id = list(resp['query']['pages'].keys())[0]
-        return resp['query']['pages'][page_id]['imageinfo'][0]['extmetadata']['ImageDescription']['value']
-    return ''
+    pages = resp['query']['pages']
+    if not pages.keys():
+        return ''
+    page_id = list(resp['query']['pages'].keys())[0]
+    if not resp['query']['pages'][page_id].keys():
+        return ''
+    imageinfo = pages[page_id]['imageinfo'][0]
+    if not imageinfo.keys():
+        return ''
+    extmetadata = imageinfo['extmetadata']
+    if not extmetadata.keys():
+        return ''
+    imagedesc = extmetadata['ImageDescription']
+    if not imagedesc:
+        return ''
+    return imagedesc['value']
