@@ -28,6 +28,7 @@ def getImages():
         return get_serialized_data(filtered_images)
     except:
         db.session.rollback()
+    return Response(status=404, response=json.dumps({"data": "Category May be Invalid"}))
 
 
 @images.route("/images/describe")
