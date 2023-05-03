@@ -1,5 +1,5 @@
 
-from flask import abort, Blueprint, request, send_file
+from flask import abort, Blueprint, request, send_file, Response
 import json
 import csv
 from flask_cors import cross_origin
@@ -16,16 +16,20 @@ contributions = Blueprint('contributions', __name__)
 @contributions.route('/contributions',  methods=['GET'])
 @cross_origin()
 def getContributions():
-    contributions_of_type = []
-    contrib_type = request.args.get('type')
-    all_contributions = Contribution.query.all()
-    if contrib_type:
-        for contribution in  all_contributions:
-            if contribution.type == contrib_type:
-                contributions_of_type.append(contribution)
-        return get_serialized_data(contributions_of_type)
+    try:
+        contributions_of_type = []
+        contrib_type = request.args.get('type')
+        all_contributions = Contribution.query.all()
+        if contrib_type:
+            for contribution in  all_contributions:
+                if contribution.type == contrib_type:
+                    contributions_of_type.append(contribution)
+            return get_serialized_data(contributions_of_type)
 
-    return get_serialized_data(all_contributions)
+        return get_serialized_data(all_contributions)
+    except:
+        db.session.rollback()
+    return Response(status=404, response=json.dumps({"data": "There is no contribution yet"}))
 
 
 @contributions.route('/contributions', methods=['POST'])
