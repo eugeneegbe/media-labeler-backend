@@ -7,8 +7,10 @@ from flask import Flask, request, session
 from flask_babel import Babel
 from flask_cors import CORS
 from flask_login import LoginManager
-from flask_sqlalchemy import SQLAlchemy 
+from flask_sqlalchemy import SQLAlchemy
 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 
 logging.basicConfig(
@@ -23,7 +25,6 @@ __dir__ = os.path.dirname(__file__)
 app.config.update(
     yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
-
 # Another secret key will be generated later
 app.config['SQLALCHEMY_DATABASE_URI']
 app.config['SECRET_KEY']
@@ -32,7 +33,7 @@ app.config['TEMPLATES_AUTO_RELOAD']
 app.config['SQLALCHEMY_PRE_PING'] = True
 app.config['SQLALCHEMY_TRACK_OPTIONS'] = False
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 3600
-app.config['SQLALCHEMY_POOL_SIZE'] = 10
+app.config['SQLALCHEMY_POOL_SIZE'] = 1
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 20
 
 def get_locale():
