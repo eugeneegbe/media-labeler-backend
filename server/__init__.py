@@ -9,9 +9,6 @@ from flask_cors import CORS
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
 
 logging.basicConfig(
     level=logging.DEBUG,
