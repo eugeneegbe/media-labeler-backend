@@ -27,6 +27,7 @@ def getCategoies():
         return get_serialized_data(all_categories)
     except:
         db.session.rollback()
+    return Response(status=404, response=json.dumps({'message': 'No categories at the moment'}))
 
 
 @categories.route('/categories/add',  methods=['POST'])
