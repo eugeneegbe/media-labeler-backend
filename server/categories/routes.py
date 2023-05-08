@@ -34,29 +34,30 @@ def getCategoies():
 @cross_origin()
 def addCategory():
     data = json.loads(request.data)
-    category_exits = Category.query.filter_by(name=data['category']).first()
-    if category_exits:
-        return Response(status=400, response='Category exists already')
-    if not data['category']:
-        return Response(status=404, response=json.dumps({'message': 'Category May be Invalid'}))
-    names = get_image_names(data['category'])
-    if names == 'Failure':
-        return Response(status=404, response=json.dumps({'message': 'Category May be Invalid'}))
-
-    category = Category(
-        name=data['category'],
-        type=data['type']
-    )
-    db.session.add(category)
-    if not commit_changes_to_db():
-        return Response(status=404, response=json.dumps({'message':'Category could not be added'}))
-    for image in names:
-        if 'imageinfo' in image:
-            image = Image(filename=image['title'],
-                        url=image['imageinfo'][0]['url'],
-                        category_id=category.id,
-                        description=image['imageinfo'][0]['descriptionurl'])
-            db.session.add(image)
-    if not commit_changes_to_db():
-        return Response(status=404, response={'message': 'Category images could not be added'})
+    if not data['categories']:
+        return Response(status=404, response=json.dumps({'message': 'No category provided'}))
+    categories_data = data['categories'].split(',')
+    for category in categories_data:
+        names = get_image_names(category)
+        if names == 'Failure':
+            return Response(status=404, response=json.dumps({'message': 'Category May be Invalid'}))
+        category_exits = Category.query.filter_by(name=category).first()
+        if category_exits:
+            continue
+        new_category = Category(
+            name=category,
+            type=data['type']
+        )
+        db.session.add(new_category)
+        if not commit_changes_to_db():
+            return Response(status=404, response=json.dumps({'message':'Category could not be added'}))
+        for image in names:
+            if 'imageinfo' in image:
+                image = Image(filename=image['title'],
+                            url=image['imageinfo'][0]['url'],
+                            category_id=new_category.id,
+                            description=image['imageinfo'][0]['descriptionurl'])
+                db.session.add(image)
+        if not commit_changes_to_db():
+            return Response(status=404, response={'message': 'Category images could not be added'})
     return Response(status=200, response={'message': 'success'})
