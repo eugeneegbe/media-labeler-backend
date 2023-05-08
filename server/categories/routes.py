@@ -59,5 +59,5 @@ def addCategory():
                             description=image['imageinfo'][0]['descriptionurl'])
                 db.session.add(image)
         if not commit_changes_to_db():
-            return Response(status=404, response={'message': 'Category images could not be added'})
+            return Response(status=404, response={'message': 'Category ' + category + ' images could not be added'})
     return Response(status=200, response={'message': 'success'})
