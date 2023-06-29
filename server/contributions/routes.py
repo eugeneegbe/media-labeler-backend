@@ -25,7 +25,7 @@ def getContributions():
                 if contribution.type == contrib_type:
                     contributions_of_type.append(contribution)
             return get_serialized_data(contributions_of_type)
-
+        print('all_contributions', all_contributions)
         return get_serialized_data(all_contributions)
     except:
         db.session.rollback()
